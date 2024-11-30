@@ -5,9 +5,15 @@
 #include "temperature_controller.h"
 #include "pressure_controller.h"
 #include "../safety/safety_manager.h"
+#include "../sensors/sensor_manager.h"
 
 class ControllerManager {
 public:
+    ControllerManager(SensorManager& sensors)
+        : tempController(sensors)  // Initialize temperature controller with sensor manager
+        , safetyManager(sensors)   // Safety manager might also need sensor access
+    {}
+
     void begin() {
         phController.begin();
         doController.begin();

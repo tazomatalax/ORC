@@ -10,7 +10,7 @@ SensorManager sensors;
 StepperController steppers;
 CommunicationManager comm;
 PWMController pwm;
-ControllerManager controllers;
+ControllerManager controllers(sensors);  // Pass sensors to controller manager
 
 // Function to update controllers with sensor readings
 void updateControllersWithSensorData(const SensorManager::SensorReadings& readings) {
@@ -22,12 +22,8 @@ void updateControllersWithSensorData(const SensorManager::SensorReadings& readin
         controllers.getDOController().setCurrentValue(readings.do_reading.dissolvedOxygen);
     }
     
-    // Temperature from either pH or DO sensor can be used
-    if (readings.do_reading.valid) {
-        controllers.getTemperatureController().setCurrentValue(readings.do_reading.temperature);
-    } else if (readings.ph_reading.valid) {
-        controllers.getTemperatureController().setCurrentValue(readings.ph_reading.temperature);
-    }
+    // Temperature is now handled directly by the TemperatureController
+    // No need to manually set it here
 }
 
 void setup() {
