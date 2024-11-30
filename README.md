@@ -23,9 +23,20 @@ This project implements a comprehensive bioreactor control system with multiple 
 
 #### Temperature Control
 - Measurement frequency: 1 second
-- Control action: Every 10-30 seconds
-- PID control implementation
-- Interfaces: Heating jacket, temperature sensors
+- Control action: Every 10-30 seconds (configurable)
+- Advanced PID control implementation:
+  - 12-bit PWM resolution (0-4095)
+  - 1 kHz PWM frequency
+  - Heater control via MOSFET on pin PB10
+- Multi-sensor temperature monitoring:
+  - pH probe temperature sensor
+  - DO probe temperature sensor
+  - Intelligent averaging of valid readings
+- Fallback mechanisms:
+  - Continues with single sensor if one fails
+  - Maintains last known temperature if both fail
+- Safety features integrated with SafetyManager
+- Interfaces: PWM-controlled heating jacket
 
 #### Pressure Control
 - Measurement frequency: 1 second
@@ -222,6 +233,32 @@ This project implements a comprehensive bioreactor control system with multiple 
   - [ ] Unit tests for control algorithms
   - [ ] Integration tests for communication
   - [ ] System tests for safety features
+
+## Recent Updates
+
+### Temperature Control Implementation (Latest)
+1. Enhanced Temperature Sensing
+   - Integrated temperature readings from both pH and DO probes
+   - Smart averaging system for reliable temperature data
+   - Automatic sensor validity checking
+
+2. PWM Heater Control
+   - Implemented on SAMD51 pin PB10 (pin 32)
+   - 12-bit resolution for precise control (4096 steps)
+   - 1 kHz switching frequency for efficient heating
+   - MOSFET-based power control
+
+3. Control Architecture
+   - PID control with configurable parameters
+   - Adjustable control interval (10-30 seconds)
+   - Integrated with central SensorManager
+   - Safety system integration
+
+4. System Integration
+   - Unified through ControllerManager
+   - Automatic sensor data handling
+   - Seamless integration with existing control systems
+   - Real-time monitoring and adjustment capabilities
 
 ## System Architecture
 
